@@ -1,79 +1,53 @@
-const CACHE_NAME = "the_soccer-v1.9";
-const urlsToCache = [
-    "./",
-    "./asset/script/api.js",
-    "./asset/script/db.js",
-    "./asset/script/idb.js",
-    "./asset/script/jquery.js",
-    "./asset/script/navigation.js",
-    "./asset/script/script.js",
-    "./asset/img/error.png",
-    "./asset/img/icon512.png",
-    "./asset/img/icon192.png",
-    "./asset/img/match.jpg",
-    "./asset/img/standing.jpg",
-    "./asset/img/team.jpg",
-    "./asset/img/icon/founded.svg",
-    "./asset/img/icon/city.svg",
-    "./pages/bookmarks.html",
-    "./pages/home.html",
-    "./pages/nav.html",
-    "./pages/bookmarks-component/js/team.js",
-    "./pages/bookmarks-component/js/match.js",
-    "./style/css/materialize.min.css",
-    "./style/css/style.css",
-    "./style/font/EASPORTS15.ttf",
-    "./style/js/materialize.min.js",
-    "./index.html",
-    "./match.html",
-    "./team.html",
-    "./manifest.json",
-    "./service-worker.js"
-];
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 
-self.addEventListener("install", (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(urlsToCache);
-        })
-    );
-});
+workbox.precaching.precacheAndRoute([
+    // root folder
+    { url: './index.html', revision: '1' },
+    { url: './main.js', revision: '1' },
+    { url: './match.html', revision: '1' },
+    { url: './match.js', revision: '1' },
+    { url: './team.html', revision: '1' },
+    { url: './manifest.json', revision: '1' },
+    { url: './service-worker.js', revision: '1' },
+    // asset folder
+    { url: './asset/img/icon/city.svg', revision: '1' },
+    { url: './asset/img/icon/founded.svg', revision: '1' },
+    { url: './asset/img/error.png', revision: '1' },
+    { url: './asset/img/icon192.png', revision: '1' },
+    { url: './asset/img/icon512.png', revision: '1' },
+    { url: './sset/img/match.jpg', revision: '1' },
+    { url: './asset/img/standing.jpg', revision: '1' },
+    { url: './asset/img/team.jpg', revision: '1' },
+    { url: './asset/script/api.js', revision: '1' },
+    { url: './asset/script/db.js', revision: '1' },
+    { url: './asset/script/idb.js', revision: '1' },
+    { url: './asset/script/jquery.js', revision: '1' },
+    { url: './asset/script/navigation.js', revision: '1' },
+    { url: './asset/script/script.js', revision: '1' },
+    // pages folder
+    { url: './pages/nav.html', revision: '1' },
+    { url: './pages/home.html', revision: '1' },
+    { url: './pages/bookmarks.html', revision: '1' },
+    // style folder
+    { url: './style/font/EASPORTS15.ttf', revision: '1' },
+    { url: './style/js/materialize.min.js', revision: '1' },
+    { url: './style/css/materialize.min.css', revision: '1' },
+    { url: './style/css/style.css', revision: '1' },
+])
 
-self.addEventListener("fetch", (event) => {
-    const base_url = "https://api.football-data.org/";
+workbox.routing.registerRoute(
+    new RegExp('https://api.football-data.org/v2'),
+    workbox.strategies.staleWhileRevalidate({
+        cacheName: 'football',
+        plugins: [
+            new workbox.expiration.Plugin({
+                maxEntries: 10,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+            }),
+        ],
+    })
+);
 
-    if (event.request.url.indexOf(base_url) > -1) {
-        event.respondWith(
-            caches.open(CACHE_NAME).then(function(cache) {
-                return fetch(event.request).then(function(response) {
-                    cache.put(event.request.url, response.clone());
-                    return response;
-                })
-            })
-        );
-    } else {
-        event.respondWith(
-            caches.match(event.request, { ignoreSearch: true }).then(function(response) {
-                return response || fetch(event.request);
-            })
-        )
-    }
-});
-
-self.addEventListener("activate", function(event) {
-    event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(
-                cacheNames.map(function(cacheName) {
-                    if (cacheName != CACHE_NAME) {
-                        console.log("ServiceWorker: cache " + cacheName + " dihapus");
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
-});
 
 self.addEventListener('push', (event) => {
     let body;

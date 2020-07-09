@@ -1,7 +1,7 @@
-import "../../../asset/script/jquery.js";
-import IDB from "../../../asset/script/db.js";
-import api from "../../../asset/script/api.js";
-import "../../../asset/script/script.js";
+import "./asset/script/jquery.js";
+import IDB from "./asset/script/db.js";
+import api from "./asset/script/api.js";
+import "./asset/script/script.js";
 
 const seeDetails = (id) => {
     IDB.getDbTeamById(id)

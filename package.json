@@ -1,0 +1,28 @@
+{
+  "name": "soccer",
+  "version": "1.0.0",
+  "description": "football information",
+  "main": "main.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yustaTrubusW/yustaTrubusW.github.io.git"
+  },
+  "keywords": [
+    "football",
+    "standing",
+    "match",
+    "team"
+  ],
+  "author": "yusta trubus widianto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yustaTrubusW/yustaTrubusW.github.io/issues"
+  },
+  "homepage": "https://github.com/yustaTrubusW/yustaTrubusW.github.io#readme",
+  "devDependencies": {
+    "web-push": "^3.4.4"
+  }
+}

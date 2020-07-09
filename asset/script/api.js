@@ -65,8 +65,8 @@ const animationLoad = () => {
 }
 
 const api = {
-    changeUrl : (url) => {
-        if (url != null || "") {
+    changeUrl: (url) => {
+        if (url !== null || "") {
             return url.replace(/^http:\/\//i, 'https://');
         }
     },
@@ -157,29 +157,37 @@ const api = {
         const component = (data) => {
             $.each(data, (key, value) => {
                 // mengambil image logo team
-                const localDate = new Date(value.utcDate).toString().slice(0, 24);
+                let scoreHome = value.score.fullTime.homeTeam;
+                let scoreAway = value.score.fullTime.awayTeam;
+                if (scoreHome === null) {
+                    scoreHome = "-";
+                }
+                if (scoreAway === null) {
+                    scoreAway = "-";
+                }
+                const localDate = new Date(value.utcDate).toString().slice(3, 21);
                 $(".match-content").prepend(` 
                 <div class="col s12 xl6">
                     <div class="card card-position">
                         <div class="card-content">
                             <div class="row">
-                                <div class="col s1 valign-wrapper">
+                                <div class="col s4"><b>${value.status}</b></div>
+                                <div class="col s6">${localDate}</div>
+                                <div class="col s2 valign-wrapper">
                                     <input type="checkbox" id="${key}">
                                     <label for="${key}" id="save-btn${key}" class="save">
                                         <i class="material-icons">bookmark_border</i>
                                     </label>
                                 </div>
-                                <div class="col s12 center-align">${value.status}</div>
-                                <div class="col s12 center-align">${localDate}</div>
-                                <div class="col s4 center-align grey lighten-5">Home Team</div>
-                                <div class="col s4 center-align grey lighten-5"></div>
-                                <div class="col s4 center-align grey lighten-5">Away Team</div>
-                                <div class="col s4 center-align">${value.score.fullTime.homeTeam}</div>
-                                <div class="col s4 center-align">VS</div>
-                                <div class="col s4 center-align">${value.score.fullTime.awayTeam}</div>
-                                <div class="col s4 center-align  grey lighten-5">${value.homeTeam.name}</div>
-                                <div class="col s4 center-align  grey lighten-5"></div>
-                                <div class="col s4 center-align  grey lighten-5">${value.awayTeam.name}</div>
+                                <div class="col s5 center-align grey lighten-5">Home Team</div>
+                                <div class="col s2 center-align grey lighten-5"></div>
+                                <div class="col s5 center-align grey lighten-5">Away Team</div>
+                                <div class="col s5 center-align">${scoreHome}</div>
+                                <div class="col s2 center-align">VS</div>
+                                <div class="col s5 center-align">${scoreAway}</div>
+                                <div class="col s5 center-align  grey lighten-5">${value.homeTeam.name}</div>
+                                <div class="col s2 center-align  grey lighten-5"></div>
+                                <div class="col s5 center-align  grey lighten-5">${value.awayTeam.name}</div>
                             </div>
                         </div>
                     </div>

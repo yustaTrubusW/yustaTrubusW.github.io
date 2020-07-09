@@ -28,30 +28,32 @@ const urlBase64ToUint8Array = (base64String) => {
 }
 
 const requestPermission = () => {
-    Notification.requestPermission().then((result) => {
-        if (result === "denied") {
-            console.log("Fitur notifikasi tidak diijinkan.");
-            return;
-        } else if (result === "default") {
-            console.error("Pengguna menutup kotak dialog permintaan ijin.");
-            return;
-        }
+    navigator.serviceWorker.ready.then(() => {
+        Notification.requestPermission().then((result) => {
+            if (result === "denied") {
+                console.log("Fitur notifikasi tidak diijinkan.");
+                return;
+            } else if (result === "default") {
+                console.error("Pengguna menutup kotak dialog permintaan ijin.");
+                return;
+            }
 
-        if ('PushManager' in window) {
-            navigator.serviceWorker.getRegistration().then((registration) => {
-                registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array("BCLu6m8h9upRH6k4jvni4wG6VizEeK3QJ7ry9fGfAUARJvSAKCGd_-0BSRmwKbsXy-8fe92dP_Iw2DjJM5yw29w")
-                }).then((subscribe) => {
-                    console.log("Berhasil subcribe endpoint: ", subscribe.endpoint);
-                    console.log("Berhasil subcribe dengan  p256dh key: ", btoa(String.fromCharCode.apply(null, new Uint8Array(subscribe.getKey('p256dh')))));
-                    console.log("berhasil subscribe dengan authKey: ", btoa(String.fromCharCode.apply(null, new Uint8Array(subscribe.getKey('auth')))));
-                }).catch(function(e) {
-                    console.error('Tidak dapat melakukan subscribe ', e.message);
-                });
-            })
-        }
-    });
+            if ('PushManager' in window) {
+                navigator.serviceWorker.getRegistration().then((registration) => {
+                    registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array("BCLu6m8h9upRH6k4jvni4wG6VizEeK3QJ7ry9fGfAUARJvSAKCGd_-0BSRmwKbsXy-8fe92dP_Iw2DjJM5yw29w")
+                    }).then((subscribe) => {
+                        console.log("Berhasil subcribe endpoint: ", subscribe.endpoint);
+                        console.log("Berhasil subcribe dengan  p256dh key: ", btoa(String.fromCharCode.apply(null, new Uint8Array(subscribe.getKey('p256dh')))));
+                        console.log("berhasil subscribe dengan authKey: ", btoa(String.fromCharCode.apply(null, new Uint8Array(subscribe.getKey('auth')))));
+                    }).catch(function(e) {
+                        console.error('Tidak dapat melakukan subscribe ', e.message);
+                    });
+                })
+            }
+        });
+    })
 }
 
 if ("Notification" in window) {

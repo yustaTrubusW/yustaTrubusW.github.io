@@ -5,9 +5,9 @@ let url = "standing";
 let filter = "";
 
 const loadTabMenu = (page, ligaId) => {
-    if (page == "standing") {
+    if (page === "standing") {
         api.loadStanding(ligaId);
-    } else if (page == "match") {
+    } else if (page === "match") {
         api.loadMatch(ligaId, "");
     } else {
         api.loadTeam(ligaId);
@@ -20,7 +20,7 @@ const loadPage = (page) => {
         $("#content").html(data);
     }, "html").done(() => {
         // mendeklarasikan fungsi dari tiap tombol yang ada di halaman home
-        if (page == "home") {
+        if (page === "home") {
             $(document).ready(function() {
                 M.Tabs.init($(".tabs"), {
                     duration: 0
@@ -32,9 +32,9 @@ const loadPage = (page) => {
             $(".button").each((key, button) => {
                 $(button).click(() => {
                     ligaId = $(button).attr("id");
-                    if (url == "match") {
+                    if (url === "match") {
                         api.loadMatch(ligaId, filter);
-                    } else if (url == "team") {
+                    } else if (url === "team") {
                         api.loadTeam(ligaId);
                     } else {
                         api.loadStanding(ligaId);
