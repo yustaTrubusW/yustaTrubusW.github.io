@@ -8,8 +8,9 @@ const getSaveMatch = () => {
             if (data.length === 0) {
                 $("#content").html("<h4 class='center col s12'>No data saved!</h4>");
             }
+            $("#content").html("");
             $.each(data, (key, match) => {
-                const localDate = new Date(match.utcDate).toString().slice(0, 24);
+                const localDate = new Date(match.utcDate).toString().slice(3, 21);
                 let scoreHome = match.score.fullTime.homeTeam;
                 let scoreAway = match.score.fullTime.awayTeam;
                 if (scoreHome === null) {
@@ -47,15 +48,11 @@ const getSaveMatch = () => {
 					`);
 
                 $(`#${key}`).change(() => {
-                    if ($(`#${key}`).prop("checked")) {
-                        IDB.saveMatch(data[key]);
-                        M.toast({ html: 'Saved!', classes: 'rounded' });
-                        $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark</i>`);
-                    } else {
-                        $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark_border</i>`);
+                    if (!($(`#${key}`).prop("checked"))) {
                         IDB.deleteMatch(data[key].id);
                         M.toast({ html: 'Removed!', classes: 'rounded' });
-                    }
+                        getSaveMatch();
+                    } 
                 });
 
                 $(`#${key}`).prop('checked', true);
