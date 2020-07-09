@@ -1,0 +1,24 @@
+{
+    "name": "The Soccer",
+    "short_name": "The Soccer",
+    "description": "football news",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF",
+    "gcm_sender_id": "489407451958",
+    "icons": [
+        {
+            "src": "./asset/img/icon512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+
+        {
+            "src": "./asset/img/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+
+    ]
+}

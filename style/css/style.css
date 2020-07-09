@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'EASPORTS15';
+    src: url(../font/EASPORTS15.ttf) format('truetype');
+    font-display: swap;
+}
+
+.brand-logo {
+    font-family: EASPORTS15;
+}
+
+.bottomnav {
+    position: fixed;
+    bottom: 0;
+}
+
+#menu {
+    text-transform: capitalize;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: bolder;
+}
+
+.button-wraper {
+    margin-top: 15px;
+}
+
+.logo-team {
+    width: auto;
+    max-width: 25px;
+    display: inline-table;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row .col {
+    padding: 10px;
+}
+
+.card-position {
+    height: 100%;
+}
+
+.group {
+    padding: 30px;
+}
+
+.loading{
+    margin: 50px auto;
+}
+
+.image{
+    height: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.logo{
+    margin: auto;
+    height: 100%;
+    max-width: 100%;
+}
+
+.team-name{
+    height: 40px;
+}
+
+.icon{
+    width: 1.2em;
+}
+
+.save{
+    cursor: pointer;
+}

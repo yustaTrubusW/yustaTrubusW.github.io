@@ -1,0 +1,53 @@
+<div class="button-wraper container">
+    <div class="row">
+        <div class="col s6">
+            <a id="2001" class="card white-text waves-effect waves-light button light-blue">Champions League</a>
+        </div>
+        <div class="col s6">
+            <a id="2002" class="card white-text waves-effect waves-light button light-blue">Liga Jerman</a>
+        </div>
+        <div class="col s6">
+            <a id="2003" class="card white-text waves-effect waves-light button light-blue">Liga Belanda</a>
+        </div>
+        <div class="col s6">
+            <a id="2021" class="card white-text waves-effect waves-light button light-blue">Liga Inggris</a>
+        </div>
+        <div class="col s6">
+            <a id="2014" class="card white-text waves-effect waves-light button light-blue">Liga Spanyol</a>
+        </div>
+        <div class="col s6">
+            <a id="2015" class="card white-text waves-effect waves-light button light-blue">Liga Perancis</a>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <ul class="tabs">
+        <li class="tab"><a class="tab-menu" href="#standing">Standing</a></li>
+        <li class="tab"><a class="tab-menu" href="#match">Match</a></li>
+        <li class="tab"><a class="tab-menu" href="#team">Team</a></li>
+    </ul>
+</div>
+<div class="main-content"></div>
+<div id="standing">
+    <h4 id="liga-title" class="col s11"></h4>
+    <div id="standing-item" class="row load"></div>
+</div>
+<div id="match">
+    <div class="row">
+        <label class="col s4">
+            <input type="radio" class="filter" name="status" value="" checked />
+            <span>ALL</span>
+        </label>
+        <label class="col s4">
+            <input type="radio" class="filter" name="status" value="scheduled" />
+            <span>SCHEDULED</span>
+        </label>
+        <label class="col s4">
+            <input type="radio" class="filter" name="status" value="finished" />
+            <span>FINISHED</span>
+        </label>
+    </div>
+    <div class="match-content row load"></div>
+</div>
+<div id="team">
+    <div class="row load" id="team-content"></div>
+</div>
