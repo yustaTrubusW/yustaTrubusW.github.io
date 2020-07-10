@@ -5,7 +5,7 @@ import "./asset/script/script.js";
 const getSaveMatch = () => {
     IDB.getAllDbMatch()
         .then((data) => {
-            $("#content").html("");
+            $("#content").html("<h4 class='center col s12 no-data'>No data saved!</h4>");
             $.each(data, (key, match) => {
                 const localDate = new Date(match.utcDate).toString().slice(3, 21);
                 let scoreHome = match.score.fullTime.homeTeam;
@@ -17,15 +17,14 @@ const getSaveMatch = () => {
                     scoreAway = "-";
                 }
                 $("#content").prepend(` 
-                    <div class="col s12 xl6">
+                    <div class="col s12 xl6" style: "transitiion: 1s all;" id="card${key}">
                         <div class="card card-position">
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col s4"><b>${match.status}</b></div>
                                     <div class="col s6">${localDate}</div>
                                     <div class="col s2 valign-wrapper">
-                                        <input type="checkbox" id="${key}">
-                                        <label for="${key}" id="save-btn${key}" class="save">
+                                        <label id="${key}"  class="save">
                                             <i class="material-icons">bookmark</i>
                                         </label>
                                     </div>
@@ -44,23 +43,34 @@ const getSaveMatch = () => {
                     </div>
                     `);
 
-                $(`#${key}`).change(() => {
-                    if (!($(`#${key}`).prop("checked"))) {
-                        IDB.deleteMatch(data[key].id);
-                        M.toast({ html: 'Removed!', classes: 'rounded' });
-                        getSaveMatch();
-                    }
+                $(`#${key}`).click(() => {
+                    IDB.deleteMatch(data[key].id);
+                    const undo = data[key];
+                    M.Toast.dismissAll();
+                    M.toast({ html: `Removed! <button class="btn-flat toast-action action">Undo</button>`, classes: 'rounded' });
+                    $(".action").click(() => {
+                        $(`#card${key}`).show('slow');
+                        IDB.saveMatch(undo);
+                        $(".no-data").hide();
+                    })
+                    
+                    IDB.getAllDbMatch().then(data => {
+                        if (data.length === 0) {
+                            $(".no-data").show();
+                        }
+                    })
+                    $(`#card${key}`).hide('slow');
                 });
 
-                $(`#${key}`).prop('checked', true);
-
             });
-            if (data.length === 0 || $("#content").html() === "") {
-                $("#content").html("<h4 class='center col s12'>No data saved!</h4>");
+
+            if (data.length === 0) {
+                $(".no-data").show();
+            } else {
+                $(".no-data").hide();
             }
         })
 }
-
 $(document).ready(() => {
     getSaveMatch();
 })

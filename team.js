@@ -70,12 +70,14 @@ const seeDetails = (id) => {
             $("#save").prop('checked', true);
             $("#save").change(() => {
                 if ($(`#save`).prop("checked")) {
+                    M.Toast.dismissAll();
                     M.toast({ html: 'Saved!', classes: 'rounded' });
                     $("#save-btn").html(`<i class="material-icons save">bookmark</i>`);
                     IDB.saveTeam(data);
                 } else {
                     $("#save-btn").html(`<i class="material-icons save">bookmark_border</i>`);
                     IDB.deleteTeam(data.id);
+                    M.Toast.dismissAll();
                     M.toast({ html: 'Removed!', classes: 'rounded' });
                 }
             });

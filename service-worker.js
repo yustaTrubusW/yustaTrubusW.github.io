@@ -15,7 +15,7 @@ workbox.precaching.precacheAndRoute([
     { url: './asset/img/error.png', revision: '1' },
     { url: './asset/img/icon192.png', revision: '1' },
     { url: './asset/img/icon512.png', revision: '1' },
-    { url: './sset/img/match.jpg', revision: '1' },
+    { url: './asset/img/match.jpg', revision: '1' },
     { url: './asset/img/standing.jpg', revision: '1' },
     { url: './asset/img/team.jpg', revision: '1' },
     { url: './asset/script/api.js', revision: '1' },
@@ -36,8 +36,18 @@ workbox.precaching.precacheAndRoute([
 ])
 
 workbox.routing.registerRoute(
+    new RegExp('/asset/img/'),
+    workbox.strategies.cacheOnly()
+);
+
+workbox.routing.registerRoute(
+    new RegExp('/style/'),
+    workbox.strategies.cacheOnly()
+);
+
+workbox.routing.registerRoute(
     new RegExp('https://api.football-data.org/v2'),
-    workbox.strategies.staleWhileRevalidate({
+    workbox.strategies.networkFirst({
         cacheName: 'football',
         plugins: [
             new workbox.expiration.Plugin({
@@ -45,6 +55,7 @@ workbox.routing.registerRoute(
                 maxAgeSeconds: 30 * 24 * 60 * 60,
             }),
         ],
+        networkTimeoutSeconds: 3
     })
 );
 

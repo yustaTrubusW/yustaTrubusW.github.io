@@ -196,12 +196,14 @@ const api = {
 
                 $(`#${key}`).change(() => {
                     if ($(`#${key}`).prop("checked")) {
+                        M.Toast.dismissAll();
                         M.toast({ html: 'Saved!', classes: 'rounded' });
                         IDB.saveMatch(data[key]);
                         $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark</i>`);
                     } else {
                         $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark_border</i>`);
                         IDB.deleteMatch(data[key].id);
+                        M.Toast.dismissAll();
                         M.toast({ html: 'Removed!', classes: 'rounded' });
                     }
                 });
@@ -305,10 +307,12 @@ const api = {
 
             $("#save").change(() => {
                 if ($(`#save`).prop("checked")) {
+                    M.Toast.dismissAll();
                     M.toast({ html: 'Saved!', classes: 'rounded' });
                     $("#save-btn").html(`<i class="material-icons save">bookmark</i>`);
                     IDB.saveTeam(data);
                 } else {
+                    M.Toast.dismissAll();
                     M.toast({ html: 'Removed!', classes: 'rounded' });
                     $("#save-btn").html(`<i class="material-icons save">bookmark_border</i>`);
                     IDB.deleteTeam(data.id);
