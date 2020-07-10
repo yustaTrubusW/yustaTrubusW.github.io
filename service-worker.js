@@ -8,7 +8,7 @@ workbox.precaching.precacheAndRoute([
     { url: './match.js', revision: '1' },
     { url: './team.html', revision: '1' },
     { url: './manifest.json', revision: '1' },
-    { url: './service-worker.js', revision: '1' },
+    { url: './service-worker.js', revision: '2' },
     // asset folder
     { url: './asset/img/icon/city.svg', revision: '1' },
     { url: './asset/img/icon/founded.svg', revision: '1' },
@@ -32,7 +32,7 @@ workbox.precaching.precacheAndRoute([
     { url: './style/font/EASPORTS15.ttf', revision: '1' },
     { url: './style/js/materialize.min.js', revision: '1' },
     { url: './style/css/materialize.min.css', revision: '1' },
-    { url: './style/css/style.css', revision: '1' },
+    { url: './style/css/style.css', revision: '2' },
 ])
 
 workbox.routing.registerRoute(

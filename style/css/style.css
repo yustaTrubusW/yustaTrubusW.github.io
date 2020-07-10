@@ -6,6 +6,11 @@
     font-display: swap;
 }
 
+#toast-container {
+  left: 10px;
+  bottom: 10px;
+}
+
 .brand-logo {
     font-family: EASPORTS15;
 }

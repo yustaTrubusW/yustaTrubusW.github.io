@@ -4978,7 +4978,7 @@ small {
 
 @media only screen and (max-width: 600px) {
     #toast-container {
-        min-width: 100%;
+        width: fit-content;
         bottom: 0%
     }
 }
