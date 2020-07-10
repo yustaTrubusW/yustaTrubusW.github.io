@@ -18,11 +18,11 @@ workbox.precaching.precacheAndRoute([
     { url: './asset/img/match.jpg', revision: '1' },
     { url: './asset/img/standing.jpg', revision: '1' },
     { url: './asset/img/team.jpg', revision: '1' },
-    { url: './asset/script/api.js', revision: '1' },
+    { url: './asset/script/api.js', revision: '3' },
     { url: './asset/script/db.js', revision: '1' },
     { url: './asset/script/idb.js', revision: '1' },
     { url: './asset/script/jquery.js', revision: '1' },
-    { url: './asset/script/navigation.js', revision: '1' },
+    { url: './asset/script/navigation.js', revision: '2' },
     { url: './asset/script/script.js', revision: '1' },
     // pages folder
     { url: './pages/nav.html', revision: '1' },

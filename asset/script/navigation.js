@@ -85,3 +85,5 @@ $(document).ready(() => {
         hoverEnabled: false
     });
 });
+
+export default ligaId;

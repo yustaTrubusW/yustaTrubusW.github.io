@@ -1,5 +1,5 @@
 import IDB from "./db.js";
-
+import ligaId from "./navigation.js";
 const baseUrl = "https://api.football-data.org/v2";
 
 const getData = (url) => {
@@ -340,7 +340,7 @@ const api = {
                 })
                 .then(() => {
                     $(".back").click(() => {
-                        loadTeam(ligaId);
+                        api.loadTeam(ligaId);
                     })
                 })
         }
@@ -351,7 +351,7 @@ const api = {
             })
             .then(() => {
                 $(".back").click(() => {
-                    loadTeam(ligaId);
+                    api.loadTeam(ligaId);
                 })
             });
     },
