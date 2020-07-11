@@ -9,7 +9,7 @@ workbox.precaching.precacheAndRoute([
     { url: './team.html', revision: '3' },
     { url: './team.js', revision: '4' },
     { url: './manifest.json', revision: '1' },
-    { url: './service-worker.js', revision: '4' },
+    { url: './service-worker.js', revision: '5' },
     // asset folder
     { url: './asset/img/icon/city.svg', revision: '1' },
     { url: './asset/img/icon/founded.svg', revision: '1' },
