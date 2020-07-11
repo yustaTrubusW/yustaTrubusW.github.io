@@ -5,7 +5,7 @@ import "./asset/script/script.js";
 const getSaveMatch = () => {
     IDB.getAllDbMatch()
         .then((data) => {
-            $("#content").html("<h4 class='center col s12 no-data'>No data saved!</h4>");
+            $("#match-content").html("<h4 class='center col s12 no-data'>No data saved!</h4>");
             $.each(data, (key, match) => {
                 const localDate = new Date(match.utcDate).toString().slice(3, 21);
                 let scoreHome = match.score.fullTime.homeTeam;
@@ -16,7 +16,7 @@ const getSaveMatch = () => {
                 if (scoreAway === null) {
                     scoreAway = "-";
                 }
-                $("#content").prepend(` 
+                $("#match-content").prepend(` 
                     <div class="col s12 xl6" style: "transitiion: 1s all;" id="card${key}">
                         <div class="card card-position">
                             <div class="card-content">

@@ -26,7 +26,7 @@ const seeDetails = (id) => {
                 `;
             })
 
-            $("#content").html(` 
+            $("#team-content").html(` 
 	            <h4 class="card-title col s11 center-align grey lighten-5">${data.name}</h4>
 	            <h4 class="col s1 valign-wrapper">
 	                <input type="checkbox" id="save">
@@ -88,11 +88,11 @@ const getSavedTeam = () => {
     IDB.getAllDbTeam()
         .then((data) => {
             if (data.length === 0) {
-                $("#content").html("<h4 class='center col s12'>No data saved!</h4>");
+                $("#team-content").html("<h4 class='center col s12'>No data saved!</h4>");
             }
             $.each(data, (key, team) => {
                 const url = api.changeUrl(team.crestUrl);
-                $("#content").prepend(` 
+                $("#team-content").prepend(` 
 				<div class="col s10 m6 l4 offset-s1 offset-m">
                     <div class="card card-position">
                         <div class="image center">

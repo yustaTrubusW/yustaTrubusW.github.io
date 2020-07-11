@@ -4,11 +4,12 @@ workbox.precaching.precacheAndRoute([
     // root folder
     { url: './index.html', revision: '1' },
     { url: './main.js', revision: '1' },
-    { url: './match.html', revision: '1' },
-    { url: './match.js', revision: '1' },
-    { url: './team.html', revision: '1' },
+    { url: './match.html', revision: '2' },
+    { url: './match.js', revision: '2' },
+    { url: './team.html', revision: '2' },
+    { url: './team.js', revision: '3' },
     { url: './manifest.json', revision: '1' },
-    { url: './service-worker.js', revision: '2' },
+    { url: './service-worker.js', revision: '3' },
     // asset folder
     { url: './asset/img/icon/city.svg', revision: '1' },
     { url: './asset/img/icon/founded.svg', revision: '1' },
@@ -33,7 +34,37 @@ workbox.precaching.precacheAndRoute([
     { url: './style/js/materialize.min.js', revision: '1' },
     { url: './style/css/materialize.min.css', revision: '1' },
     { url: './style/css/style.css', revision: '2' },
-])
+]);
+
+workbox.routing.registerRoute(
+    new RegExp('https://upload.wikimedia.org/wikipedia/'),
+    workbox.strategies.networkFirst({
+        cacheName: "badge",
+        plugins: [
+            new workbox.expiration.Plugin({
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+            }),
+        ],
+        networkTimeoutSeconds: 3
+    })
+)
+
+workbox.routing.registerRoute(
+    new RegExp('https://fonts.gstatic.com/s/materialicons/'),
+    workbox.strategies.cacheFirst({
+    cacheName: 'icon',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 30,
+      }),
+    ],
+  })
+)
 
 workbox.routing.registerRoute(
     new RegExp('/asset/img/'),
