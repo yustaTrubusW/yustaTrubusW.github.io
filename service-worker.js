@@ -4,8 +4,8 @@ workbox.precaching.precacheAndRoute([
     // root folder
     { url: './index.html', revision: '1' },
     { url: './main.js', revision: '1' },
-    { url: './match.html', revision: '2' },
-    { url: './match.js', revision: '2' },
+    { url: './match.html', revision: '3' },
+    { url: './match.js', revision: '3' },
     { url: './team.html', revision: '3' },
     { url: './team.js', revision: '4' },
     { url: './manifest.json', revision: '1' },
