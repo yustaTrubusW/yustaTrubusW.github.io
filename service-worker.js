@@ -6,7 +6,7 @@ workbox.precaching.precacheAndRoute([
     { url: './main.js', revision: '1' },
     { url: './match.html', revision: '2' },
     { url: './match.js', revision: '2' },
-    { url: './team.html', revision: '2' },
+    { url: './team.html', revision: '3' },
     { url: './team.js', revision: '4' },
     { url: './manifest.json', revision: '1' },
     { url: './service-worker.js', revision: '4' },
