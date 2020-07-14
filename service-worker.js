@@ -23,8 +23,9 @@ workbox.precaching.precacheAndRoute([
     { url: './asset/script/db.js', revision: '1' },
     { url: './asset/script/idb.js', revision: '1' },
     { url: './asset/script/jquery.js', revision: '1' },
-    { url: './asset/script/navigation.js', revision: '2' },
+    { url: './asset/script/navigation.js', revision: '3' },
     { url: './asset/script/script.js', revision: '1' },
+    { url: './asset/script/display.js', revision: '1' },
     // pages folder
     { url: './pages/nav.html', revision: '1' },
     { url: './pages/home.html', revision: '1' },
@@ -53,17 +54,17 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
     new RegExp('https://fonts.gstatic.com/s/materialicons/'),
     workbox.strategies.cacheFirst({
-    cacheName: 'icon',
-    plugins: [
-      new workbox.cacheableResponse.Plugin({
-        statuses: [0, 200],
-      }),
-      new workbox.expiration.Plugin({
-        maxAgeSeconds: 60 * 60 * 24 * 365,
-        maxEntries: 30,
-      }),
-    ],
-  })
+        cacheName: 'icon',
+        plugins: [
+            new workbox.cacheableResponse.Plugin({
+                statuses: [0, 200],
+            }),
+            new workbox.expiration.Plugin({
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 30,
+            }),
+        ],
+    })
 )
 
 workbox.routing.registerRoute(

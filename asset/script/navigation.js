@@ -1,18 +1,91 @@
-import api from "./api.js";
+import * as api from "./api.js";
+import * as print from "./display.js";
 
 let ligaId = "2001";
-let url = "standing";
+let page = "standing";
 let filter = "";
 
-const loadTabMenu = (page, ligaId) => {
+const tabInit = () => {
+    $(document).ready(function() {
+        M.Tabs.init($(".tabs"));
+
+        tabMenu("standing", ligaId);
+        api.standings(2001)
+            .then(data => {
+                print.standings(data);
+            });
+    });
+
+    $(".tab-menu").each((key, tab) => {
+        $(tab).click(() => {
+            page = $(tab).attr("href").substr(1);
+            tabMenu(page, ligaId);
+        });
+    });
+}
+
+const tabMenu = (page, ligaId) => {
     if (page === "standing") {
-        api.loadStanding(ligaId);
+        api.standings(ligaId)
+            .then(data => {
+                print.standings(data);
+            });
     } else if (page === "match") {
-        api.loadMatch(ligaId, "");
+        api.match(ligaId, "")
+            .then(data => {
+                print.match(data);
+            });
     } else {
-        api.loadTeam(ligaId);
+        api.team(ligaId)
+            .then(data => {
+                print.team(data);
+            });
     }
 
+}
+
+const choseCompetition = () => {
+    $(".button").each((key, button) => {
+        $(button).click(() => {
+            ligaId = $(button).attr("id");
+            if (page === "match") {
+                api.match(ligaId, filter)
+                    .then(data => {
+                        print.match(data);
+                    });
+            } else if (page === "team") {
+                api.team(ligaId)
+                    .then(data => {
+                        print.team(data);
+                    });
+            } else {
+                api.standings(ligaId)
+                    .then(data => {
+                        print.standings(data);
+                    });
+            }
+        });
+
+    });
+}
+
+const filterMatch = () => {
+    $(".filter").each((key, checked) => {
+        $(checked).click(() => {
+            filter = $(checked).val();
+            api.match(ligaId, filter)
+            .then(data =>{
+                print.match(data);
+            });
+        })
+    })
+}
+
+const onHome = () => {
+    choseCompetition();
+    tabInit();
+    tabMenu();
+    filterMatch();
 }
 
 const loadPage = (page) => {
@@ -21,42 +94,7 @@ const loadPage = (page) => {
     }, "html").done(() => {
         // mendeklarasikan fungsi dari tiap tombol yang ada di halaman home
         if (page === "home") {
-            $(document).ready(function() {
-                M.Tabs.init($(".tabs"), {
-                    duration: 0
-                });
-                loadTabMenu("standing", ligaId);
-                api.loadStanding(2001);
-            });
-
-            $(".button").each((key, button) => {
-                $(button).click(() => {
-                    ligaId = $(button).attr("id");
-                    if (url === "match") {
-                        api.loadMatch(ligaId, filter);
-                    } else if (url === "team") {
-                        api.loadTeam(ligaId);
-                    } else {
-                        api.loadStanding(ligaId);
-                    }
-                });
-            });
-
-            $(".tab-menu").each((key, tab) => {
-                $(tab).click(() => {
-                    url = $(tab).attr("href").substr(1);
-                    loadTabMenu(url, ligaId);
-                    console.log()
-                });
-            });
-
-            $(".filter").each((key, checked) => {
-                $(checked).click(() => {
-                    filter = $(checked).val();
-                    console.log(filter);
-                    api.loadMatch(ligaId, filter);
-                })
-            })
+            onHome();;
         }
     });
 }
@@ -85,5 +123,3 @@ $(document).ready(() => {
         hoverEnabled: false
     });
 });
-
-export default ligaId;
