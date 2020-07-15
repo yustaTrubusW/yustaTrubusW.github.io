@@ -123,9 +123,19 @@ const standings = (data) => {
     imageError();
 }
 
-const match = (data) => {
+const match = ({ data, saved = false }) => {
+    let matchData;
+    let toast = "";
     $(".match-content").html("");
-    $.each(data.matches, (key, match) => {
+
+    if (saved === true) {
+        matchData = data;
+        toast = `<button class="btn-flat toast-action action">Undo</button>`
+    } else {
+        matchData = data.matches;
+    }
+
+    $.each(matchData, (key, match) => {
         // mengambil image logo team
         let scoreHome = match.score.fullTime.homeTeam;
         let scoreAway = match.score.fullTime.awayTeam;
@@ -139,7 +149,7 @@ const match = (data) => {
 
         const localDate = new Date(match.utcDate).toString().slice(3, 21);
         $(".match-content").prepend(` 
-            <div class="col s12 xl6">
+            <div class="col s12 xl6" id="card${key}">
                 <div class="card card-position">
                     <div class="card-content">
                         <div class="row">
@@ -175,30 +185,51 @@ const match = (data) => {
             })
             .then(() => {
                 $(`#${key}`).change(() => {
+                    const undo = matchData[key];
                     if ($(`#${key}`).prop("checked")) {
                         M.Toast.dismissAll();
-                        M.toast({ html: 'Saved!', classes: 'rounded' });
+                        M.toast({ html: `Saved! ${toast}`, classes: 'rounded' });
                         saveMatch(match);
                         $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark</i>`);
                     } else {
                         M.Toast.dismissAll();
-                        M.toast({ html: 'Removed!', classes: 'rounded' });
+                        M.toast({ html: `Removed! ${toast}`, classes: 'rounded' });
                         deleteMatch(match.id);
                         $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark_border</i>`);
+
+                        if (saved === true) {
+                            $(`#card${key}`).hide('slow');
+                        }
                     }
+
+                    $(".action").click(() => {
+                        $(`#card${key}`).show('slow');
+                        saveMatch(undo);
+                        $(".no-data").hide();
+                        $(`#${key}`).prop('checked', true);
+                        $(`#save-btn${key}`).html(`<i class="material-icons save">bookmark</i>`);
+                    })
                 });
             })
     });
 
-    $(".match-content").prepend(`
+    if (saved === false) {
+        $(".match-content").prepend(`
         <h4 class="center-align col s12 grey lighten-5">
             ${data.competition.name}
         </h4>`);
+    }
 }
 
-const team = (data) => {
-    let teamContent = `<h4 class="center-align col s12 grey lighten-5">${data.competition.name}</h4>`;
-    $.each(data.teams, (key, team) => {
+const team = ({ data, saved = false }) => {
+    let teamContent = "";
+    let dataTeam = data;
+    if (!saved) {
+        teamContent = `<h4 class="center-align col s12 grey lighten-5">${data.competition.name}</h4>`;
+        dataTeam = data.teams;
+    }
+
+    $.each(dataTeam, (key, team) => {
         const url = changeUrl(team.crestUrl);
         teamContent += ` 
             <div class="col s10 m6 l4 offset-s1 offset-m">
@@ -218,7 +249,7 @@ const team = (data) => {
                         <span>${team.area.name}</span>
                     </div>
                     <div class="card-action right-align">
-                        <a class="more" href="#${team.id}">Read More</a>
+                        <a class="read-more" href="#${team.id}">Read More</a>
                     </div>
                 </div>  
             </div>
@@ -227,67 +258,57 @@ const team = (data) => {
     });
 
     $("#team-content").html(teamContent);
-    // $(".more").each((key, more) => {
-    //     $(more).click(() => {
-    //         api.loadDecritionTeam($(more).attr("href").substr(1));
-    //     });
-    // });
-
     imageError();
 }
 
 const teamDescription = (data) => {
     let description = `
-        <h4 class="card-title col s11 center-align grey lighten-5">${data.name}</h4>
-        <h4 class="col s1 valign-wrapper">
+        <h5 style="margin:0" class="col s12 light center grey-text text-darken-3">
+            <img style="width:50px;vertical-align:middle" src="${changeUrl(data.crestUrl)}">
+            <b>${data.name}</b>
+        </h5>
+        <p align="center" class="col s12" style="margin:0">
+            Short Name : ${data.shortName}</br>
+            Founded : ${data.founded}<br>
+            Club Colors : ${data.clubColors}<br>
+            Venue : ${data.venue}
+        </p>
+        
+        <div class="col s12 card">
+        <h6 class="col s11 center-align grey lighten-5">Squad</h6>
+        <h6 class="col s1 valign-wrapper">
             <input type="checkbox" id="save">
             <label for="save" id="save-btn" class="save">
                 <i class="material-icons">bookmark_border</i>
             </label>
-        </h4>
-        <div class="col s12 card">
-            <h6 class="col s12 center-align grey lighten-5">Team Information</h6>
-            <table>
+        </h6>
+            <table class="striped">
+            <thead>
                 <tr>
-                    <td>Short Name</td>
-                    <td>${data.shortName}</td>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Role</th>
                 </tr>
-                <tr>
-                    <td>Founded</td>
-                    <td>${data.founded}</td>
-                </tr>
-                <tr>
-                    <td>Website</td>
-                    <td>${data.website}</td>
-                </tr>
-                <tr>
-                    <td>Venue</td>
-                    <td>${data.venue}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="col s12 card">
-            <h6 class="col s12 center-align grey lighten-5">Squad</h6>
-            <table>
-            <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Role</th>
-            </tr>
+            </thead>
+            <tbody>
     `;
 
     $.each(data.squad, (key, player) => {
+        let position = player.position;
+        if (position === null) {
+            position = "-";
+        }
         description += ` 
             <tr>
                 <td>${player.name}</td>
-                <td>${player.position}</td>
-                <td>${player.role}</td>
+                <td>${position}</td>
+                <td>${player.role.replace('_', ' ')}</td>
             </tr>
         `;
     })
 
-    description += "</table>";
-
+    description += "</tbody></table>";
+    imageError();
     $("#team-content").html(description);
 
     checkSaveTeam(data.id)
@@ -317,6 +338,7 @@ const teamDescription = (data) => {
 
 export {
     loadAnimation,
+    teamDescription,
     standings,
     match,
     team

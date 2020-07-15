@@ -33,12 +33,22 @@ const tabMenu = (page, ligaId) => {
     } else if (page === "match") {
         api.match(ligaId, "")
             .then(data => {
-                print.match(data);
+                print.match({ data: data, saved: false });
             });
     } else {
         api.team(ligaId)
             .then(data => {
-                print.team(data);
+                print.team({ data: data, saved: false });
+            })
+            .then(() => {
+                $(".read-more").each((key, more) => {
+                    $(more).click(() => {
+                        api.descriptionTeam($(more).attr("href").substr(1))
+                        .then(data =>{
+                            print.teamDescription(data);
+                        });
+                    });
+                });
             });
     }
 
@@ -51,12 +61,12 @@ const choseCompetition = () => {
             if (page === "match") {
                 api.match(ligaId, filter)
                     .then(data => {
-                        print.match(data);
+                        print.match({ data: data, saved: false });
                     });
             } else if (page === "team") {
                 api.team(ligaId)
                     .then(data => {
-                        print.team(data);
+                        print.team({ data: data, saved: false });
                     });
             } else {
                 api.standings(ligaId)
@@ -74,9 +84,9 @@ const filterMatch = () => {
         $(checked).click(() => {
             filter = $(checked).val();
             api.match(ligaId, filter)
-            .then(data =>{
-                print.match(data);
-            });
+                .then(data => {
+                    print.match({ data: data, saved: false });
+                });
         })
     })
 }
